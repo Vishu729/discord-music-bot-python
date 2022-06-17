@@ -1,16 +1,19 @@
 import discord
 from discord.ext import commands
-import music
+import os
 
-cogs = [music]
+#import all of the cogs
+from help_cog import help_cog
+from music_cog import music_cog
 
+bot = commands.Bot(command_prefix='/')
 
-client = commands.Bot (command_prefix='!', intents = discord.Intents.all())
+#remove the default help command so that we can write out own
+bot.remove_command('help')
 
+#register the class with the bot
+bot.add_cog(help_cog(bot))
+bot.add_cog(music_cog(bot))
 
-for i in range(len(cogs)):
-        cogs[i].setup(client)
-
-
-
-client.run("OTg2NTQ2NjkwMDc5MjIzODM4.GoH7oZ.t7lkIcHoHEjANMKIloKBE91c-NC2zZI-1c8DCc")
+#start the bot with our token
+bot.run(os.getenv("TOKEN"))
